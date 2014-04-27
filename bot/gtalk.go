@@ -19,8 +19,6 @@ const (
     VOCABULARYBOT_PASSWORD = "VOCABULARYBOT_PASSWORD"
 )
 var server = "talk.google.com:443"
-//var username = "vocabularybot@gmail.com"
-var password = "trololololololololololo"
 var notls = false
 var debug = true
 var session = false
