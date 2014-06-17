@@ -7,17 +7,14 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"./dictionary"
 )
 
-type DictionaryEntry struct {
-	Key      string
-	TermType string
-	Meanings []string
-}
+
 
 var regexLine = regexp.MustCompile("^([A-Za-zöäü ]+) \\{([a-z]+)\\}.+::([A-Za-z;\\-\\(\\) ]+)|.*$")
 
-func writeJSONToFile(dict []DictionaryEntry, fileName string) (bool, error) {
+func writeJSONToFile(dict []dictionary.Entry, fileName string) (bool, error) {
 	file, err := os.Create(fileName)
 	if err != nil {
 		return false, err
@@ -55,7 +52,7 @@ func main() {
 	}
 
 	scanner := bufio.NewScanner(file)
-	dict := []DictionaryEntry{}
+	dict := []dictionary.Entry{}
 	termSet := make(map[string]bool)
 
 	for scanner.Scan() {
@@ -75,7 +72,7 @@ func main() {
 		var meanings []string = strings.Split(matches[3], ";")
 
 		if strings.Trim(matches[1], " ") != "" {
-			entry := DictionaryEntry{Key: key, TermType: matches[2], Meanings: meanings}
+			entry := dictionary.Entry{Key: key, TermType: matches[2], Meanings: meanings}
 			dict = append(dict, entry)
 		}
 	}
