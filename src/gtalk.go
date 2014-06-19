@@ -11,6 +11,7 @@ import (
 	"log"
 	"os"
 	"strings"
+    "./dictionary"
 )
 
 const (
@@ -25,6 +26,13 @@ var session = false
 
 func main() {
 
+    if len(os.Args) != 2 {
+        fmt.Println("usage:", os.Args[0], " <json dict file>")
+        return
+    }
+
+    var dict dictionary.Dictionary  = dictionary.Make(os.Args[1])
+
     var username = os.Getenv(VOCABULARYBOT_USERNAME)
     if username == "" {
         fmt.Printf("variable '%v' must be set\n", VOCABULARYBOT_USERNAME)
@@ -36,6 +44,7 @@ func main() {
         fmt.Printf("variable '%v' must be set\n", VOCABULARYBOT_PASSWORD)
         return
     }
+
 
 
 	var talk *xmpp.Client
@@ -61,17 +70,23 @@ func main() {
 			}
 			switch v := chat.(type) {
 			case xmpp.Chat:
-				fmt.Println(v.Remote, v.Text, v.Type, v.Other)
+                response := dict.Lookup(v.Text)
+                if response == "" {
+                    response = "word not found :-("
+                }
+                fmt.Println("received text: "+v.Text+" dict lookup:"+response)
+				//fmt.Println(v.Remote, v.Text, v.Type, v.Other)
 				if v.Text != "" {
 					var msg = xmpp.Chat{
 						Remote: v.Remote,
 						Type:   "chat",
-						Text:  strings.ToUpper(v.Text)}
+                        Text: response}
 					talk.Send(msg)
 				}
 			case xmpp.Presence:
 				fmt.Println(v.From, v.Show)
 			}
+
 		}
 	}()
 	for {
