@@ -12,7 +12,7 @@ import (
 
 
 
-var regexLine = regexp.MustCompile("^([A-Za-zöäü ]+) \\{([a-z]+)\\}.+::([A-Za-z;\\-\\(\\) ]+)|.*$")
+var regexLine = regexp.MustCompile("^([A-ZÄÖÜa-zöäü ]+) (\\{[a-z]+\\})?.*(\\[[a-z\\.]+\\])?.*::([A-Za-z;'\\-\\(\\) ]+)|.*$")
 
 func writeJSONToFile(dict []dictionary.Entry, fileName string) (bool, error) {
 	file, err := os.Create(fileName)
@@ -69,7 +69,7 @@ func main() {
 
 		termSet[key] = true
 
-		var meanings []string = strings.Split(matches[3], ";")
+		var meanings []string = strings.Split(matches[4], ";")
 
 		if strings.Trim(matches[1], " ") != "" {
 			entry := dictionary.Entry{Key: key, TermType: matches[2], Meanings: meanings}
