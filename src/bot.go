@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"os"
     "./dictionary"
-    "./client/gtalk"
+    "./client"
+	"./client/gtalk"
     "time"
 )
 
@@ -18,14 +19,14 @@ func main() {
     }
 
     var dict dictionary.Dictionary  = dictionary.Make(os.Args[1])
-    gtalk := gtalk.Make()
+    cl := client.Make()
 
-    go gtalk.Init()
+    go gtalk.Init(&cl)
 
     count :=1
 	for {
 
-	       req := <- gtalk.Output
+	       req := <- cl.Output
            if count ==1 {
                time.Sleep(time.Duration(5) * time.Second)
            }
@@ -40,7 +41,7 @@ func main() {
                }
            }
            fmt.Println(response)
-           gtalk.Input <- response
+           cl.Input <- response
 
            count = count + 1
 	}
