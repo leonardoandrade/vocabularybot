@@ -150,7 +150,8 @@ func (o Options) NewClient() (*Client, error) {
 	if o.NoTLS {
 		client.conn = c
 	} else {
-		tlsconn := tls.Client(c, &DefaultConfig)
+		tlsconn := tls.Client(c, &tls.Config{InsecureSkipVerify: true})
+
 		if err = tlsconn.Handshake(); err != nil {
 			return nil, err
 		}
