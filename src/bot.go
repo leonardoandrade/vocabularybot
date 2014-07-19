@@ -3,13 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
-    "./dictionary"
-    "./client"
-	"./client/gtalk"
+    "dictionary"
+    "client"
     "time"
 )
-
-
 
 func main() {
 
@@ -19,9 +16,10 @@ func main() {
     }
 
     var dict dictionary.Dictionary  = dictionary.Make(os.Args[1])
+
     cl := client.Make()
 
-    go gtalk.Init(&cl)
+    go client.InitConsole(&cl)
 
     count :=1
 	for {

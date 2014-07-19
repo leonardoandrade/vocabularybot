@@ -1,12 +1,11 @@
-package gtalk
+package client
 
-    import (
+import (
         "fmt"
         "os"
         "log"
-        "./xmpp/"
-        ".."
-    )
+      	"client/xmpp"
+)
 
 
 const (
@@ -18,15 +17,13 @@ const (
 	SESSION                = false
 )
 
-
-
 type Message struct {
 
 }
 
 
 
-func Init(c *client.Client) {
+func InitGtalk(c *Client) {
 	var username = os.Getenv(VOCABULARYBOT_USERNAME)
 	if username == "" {
 		fmt.Printf("variable '%v' must be set\n", VOCABULARYBOT_USERNAME)
