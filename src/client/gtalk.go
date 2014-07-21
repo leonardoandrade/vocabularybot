@@ -23,17 +23,17 @@ type Message struct {
 
 
 
-func InitGtalk(c *Client) {
+func (c *Client) InitGtalk() {
 	var username = os.Getenv(VOCABULARYBOT_USERNAME)
 	if username == "" {
 		fmt.Printf("variable '%v' must be set\n", VOCABULARYBOT_USERNAME)
-		return
+		os.Exit(0)
 	}
 
 	var password = os.Getenv(VOCABULARYBOT_PASSWORD)
 	if password == "" {
 		fmt.Printf("variable '%v' must be set\n", VOCABULARYBOT_PASSWORD)
-		return
+		os.Exit(0)
 	}
 
 	var talk *xmpp.Client
