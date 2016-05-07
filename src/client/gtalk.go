@@ -14,7 +14,7 @@ const (
 	SERVER                 = "talk.google.com:443"
 	NOTLS                  = false
 	DEBUG                  = true
-	SESSION                = false
+	SESSION                = true
 )
 
 type Message struct {
@@ -45,6 +45,7 @@ func (c *Client) InitGtalk() {
 		Debug:    DEBUG,
 		Session:  SESSION}
 
+  fmt.Println("options %v", options)
 	talk, err = options.NewClient()
 
 	if err != nil {
